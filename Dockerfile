@@ -1,9 +1,11 @@
-FROM tomcat:9.0-jdk17
-
-RUN rm -rf /usr/local/tomcat/webapps/*
-
-# Match any generated .war file in target
-COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
+FROM eclipse-temurin:11-jre
 
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+
+ENV APP_HOME=/usr/src/app
+
+WORKDIR $APP_HOME
+
+COPY target/database_service_project-*.jar app.jar
+
+ENTRYPOINT ["java","-jar","app.jar"]
